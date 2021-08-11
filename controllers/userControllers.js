@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 
 const bcrypt = require("bcrypt");
-const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
+const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/key");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 exports.fetchAllUsers = async (req, res, next) => {
   try {
     const foundUsers = await User.find();
+    console.log(foundUsers);
     res.json(foundUsers);
   } catch (error) {
     next(error);

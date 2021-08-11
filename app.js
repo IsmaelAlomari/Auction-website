@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require("passport");
 const app = express();
+const path = require("path");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
 const db = mongoose.connection;
@@ -11,11 +12,13 @@ const usersRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
 
 //
+app.use(cors());
+
 app.use(express.json());
 app.use("/", usersRoutes);
 app.use("/", categoryRoutes);
+app.use("/media", express.static(path.join(__dirname, "media")));
 
-app.use(cors());
 app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
