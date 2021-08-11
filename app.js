@@ -8,10 +8,13 @@ const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const db = mongoose.connection;
 const port = 5000;
 const usersRoutes = require("./routes/user");
+const categoryRoutes = require("./routes/category");
 
 //
 app.use(express.json());
 app.use("/", usersRoutes);
+app.use("/", categoryRoutes);
+
 app.use(cors());
 app.use(passport.initialize());
 passport.use(localStrategy);
