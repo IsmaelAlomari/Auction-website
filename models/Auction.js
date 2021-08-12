@@ -8,6 +8,7 @@ const auctionSchema = new Schema({
     required: true,
     trim: true,
   },
+
   description: {
     type: String,
   },
@@ -23,6 +24,12 @@ const auctionSchema = new Schema({
     },
   ],
 
+  /**
+   * @Octowl:
+   *
+   * These relationship fields should be named for what they actually ARE.
+   * e.g. `user` instead of `userId`
+   */
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -47,6 +54,11 @@ const auctionSchema = new Schema({
     min: [1, "Cant be less than 1"],
   },
 
+  /**
+   * @Octowl:
+   *
+   * Consider making a `Bid` schema to use for `highestBid` and `secondHighestBid`
+   */
   highestBidder: {
     bidderId: {
       type: Schema.Types.ObjectId,

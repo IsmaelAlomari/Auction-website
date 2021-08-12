@@ -8,7 +8,7 @@ const {
   fetchUser,
 } = require("../controllers/userControllers");
 
-const upload = require("../middleware/multer");
+const upload = require("../middleware/multer"); // @octowl: unused?
 
 router.get("/users", fetchAllUsers);
 router.get("/user", fetchUser);
