@@ -8,17 +8,21 @@ const CategorySchema = new Schema({
     required: true,
     trim: true,
   },
+
   image: {
     type: String,
   },
+
   createdAt: {
     type: Date,
     default: Date.now,
   },
+
   updatedAt: {
     type: Date,
     default: Date.now,
   },
+  // @Octowl: remove dead code
   // toJSON: { virutuals: true },
   // toObject: { virutuals: true },
 });

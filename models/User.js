@@ -10,11 +10,13 @@ const userSchema = new Schema({
     unique: true,
     trim: true,
   },
+
   password: {
     type: String,
     required: true,
     minlength: [6, "please, password can't be less than 6 charaacter"],
   },
+
   email: {
     type: String,
     required: true,
@@ -24,13 +26,16 @@ const userSchema = new Schema({
       isAsync: false,
     },
   },
+
   address: {
     type: String,
   },
+
   age: {
     type: Number,
     min: [18, "Age must be above 18"],
   },
+
   phoneNum: {
     type: Number,
   },
@@ -38,10 +43,12 @@ const userSchema = new Schema({
   nationality: {
     type: String,
   },
+
   createdAt: {
     type: Date,
     default: Date.now,
   },
+
   updatedAt: {
     type: Date,
     default: Date.now,

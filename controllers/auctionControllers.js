@@ -6,6 +6,12 @@ exports.fetchAllAuctions = async (req, res, next) => {
       {},
       { createdAt: 0, updatedAt: 0, __v: 0 }
     )
+      /**
+       * @Octowl:
+       *
+       * There might be a way to define which fields to exclude as part of the model/schema.
+       * That way you won't have to keep excluding these fields manually.
+       */
       .populate("userId", {
         createdAt: 0,
         updatedAt: 0,
@@ -22,6 +28,16 @@ exports.fetchAllAuctions = async (req, res, next) => {
   }
 };
 
+/**
+ * @Octowl:
+ *
+ * According to the model, auctions have a user attached.
+ * I'm guessing this is the "owner" or "poster" of the auction.
+ *
+ * This CANNOT be assigned through `req.body`.
+ * It HAS to be the authenticated user pulled out of `req.user`.
+ * Otherwise, ANYONE can create auctions for ANYONE ELSE as long as they know their user id.
+ */
 exports.createAuction = async (req, res, next) => {
   try {
     if (req.files)
