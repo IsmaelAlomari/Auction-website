@@ -7,8 +7,10 @@ const User = require("../models/User");
 
 exports.fetchAllUsers = async (req, res, next) => {
   try {
-    const foundUsers = await User.find();
-    console.log(foundUsers);
+    const foundUsers = await User.find(
+      {},
+      { createdAt: 0, updatedAt: 0, __v: 0 }
+    );
     res.json(foundUsers);
   } catch (error) {
     next(error);
@@ -38,7 +40,6 @@ const generateToken = (user) => {
     id: user.id,
     username: user.username,
     email: user.email,
-    phoneum: user.phoneNum,
     exp: Date.now() + JWT_EXPIRATION_MS,
   };
   const token = jwt.sign(payload, JWT_SECRET);

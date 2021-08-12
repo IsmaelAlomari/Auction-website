@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const Schema = mongoose.Schema;
 
@@ -17,10 +18,11 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true,
-    // validate: {
-    //   validator: () => Promise.resolve(false),
-    //   message: "Email validation failed",
-    // },
+    validate: {
+      validator: validator.isEmail,
+      message: "{VALUE} is not a valid email",
+      isAsync: false,
+    },
   },
   address: {
     type: String,
