@@ -2,7 +2,10 @@ const Category = require("../models/Category");
 
 exports.fetchAllCategories = async (req, res, next) => {
   try {
-    let allCategories = await Category.find();
+    let allCategories = await Category.find(
+      {},
+      { createdAt: 0, updatedAt: 0, __v: 0 }
+    );
     res.json(allCategories);
   } catch (error) {
     next(error);
