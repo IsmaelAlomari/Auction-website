@@ -52,7 +52,7 @@ exports.updateAuction = async (req, res, next) => {
 };
 
 exports.deleteAuction = async (req, res, next) => {
-  const auction = await Auction.findById(req.body.auctionId);
+  const auction = await Auction.findById(req.body);
   if (!auction) {
     next({ status: 404, message: "Auction Not Found" });
   } else {

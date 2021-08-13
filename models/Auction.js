@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+//import the slug package
+const slug = require("mongoose-slug-generator");
+//Initialize
+mongoose.plugin(slug);
 const Schema = mongoose.Schema;
 
 const auctionSchema = new Schema({
@@ -16,6 +20,7 @@ const auctionSchema = new Schema({
     type: Number,
     default: 1,
   },
+  slug: { type: String, slug: "name", unique: true },
 
   image: [
     {
@@ -33,6 +38,7 @@ const auctionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Category",
     required: true,
+    // slug: { type: String, slug: "name" },
   },
 
   startingPrice: {

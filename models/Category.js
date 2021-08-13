@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+//import the slug package
+const slug = require("mongoose-slug-generator");
+//Initialize
+mongoose.plugin(slug);
 const Schema = mongoose.Schema;
 
 const CategorySchema = new Schema({
@@ -7,10 +11,13 @@ const CategorySchema = new Schema({
     type: String,
     required: true,
     trim: true,
+    unique: true,
   },
   image: {
     type: String,
   },
+  slug: { type: String, slug: "name", unique: true },
+
   createdAt: {
     type: Date,
     default: Date.now,

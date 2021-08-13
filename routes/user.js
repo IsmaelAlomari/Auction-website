@@ -8,8 +8,6 @@ const {
   fetchUser,
 } = require("../controllers/userControllers");
 
-const upload = require("../middleware/multer");
-
 router.get("/users", fetchAllUsers);
 router.get("/user", fetchUser);
 
