@@ -8,8 +8,8 @@ const {
 } = require("../controllers/auctionControllers");
 
 router.get("/auctions", fetchAllAuctions);
-router.delete("/deleteAuction", deleteAuction);
+router.post("/deleteAuction", deleteAuction);
 router.post("/createAuction", upload.array("image", 5), createAuction);
-router.put("/updateAuction", upload.array("image", 5), updateAuction);
+router.put("/updateAuction/:auctionId", upload.array("image", 5), updateAuction);
 
 module.exports = router;
