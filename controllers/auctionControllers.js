@@ -36,23 +36,32 @@ exports.createAuction = async (req, res, next) => {
   }
 };
 
+// exports.updateAuction = async (req, res, next) => {
+//   if (req.files)
+//     req.body.image = req.files.map(
+//       (file) => `http://${req.get("host")}/media/${file.filename}`
+//     );
+//   const auction = await Auction.findById(req.body._id);
+//   if (!auction) {
+//     next({ status: 404, message: "Auction Not Found" });
+//   } else {
+//     auction.update();
+//     res.status(201).json(req.body);
+//   }
+// };
 exports.updateAuction = async (req, res, next) => {
-  if (req.files)
-    req.body.image = req.files.map(
-      (file) => `http://${req.get("host")}/media/${file.filename}`
-    );
-
-  const _auction = await Auction.findOneAndUpdate(
-    { _id: req.body.auctionId },
-    req.body,
-    { new: true }
-  );
-
-  res.status(201).json(_auction);
+  if (req.file) {
+    req.body.photo = `http://${req.get("host")}/upload/${req.file.filename}`;
+  }
+  let auction = await Auction.findByIdAndUpdate({ _id: req.params.auctionId }, req.body);
+  auction = await auction.populate("auctions").execPopulate();
+  res.status(201).json(auction);
 };
 
+
 exports.deleteAuction = async (req, res, next) => {
-  const auction = await Auction.findById(req.body);
+  console.log(req.body);
+  const auction = await Auction.findById(req.body._id);
   if (!auction) {
     next({ status: 404, message: "Auction Not Found" });
   } else {
