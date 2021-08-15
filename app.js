@@ -12,6 +12,7 @@ connectDB();
 const usersRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
 const auctionRoutes = require("./routes/auction");
+const walletRoutes = require("./routes/wallet");
 
 //Creat App Instence
 const app = express();
@@ -27,6 +28,7 @@ app.use("/media", express.static(path.join(__dirname, "media")));
 app.use("/", usersRoutes);
 app.use("/", categoryRoutes);
 app.use("/", auctionRoutes);
+app.use("/", walletRoutes);
 
 // Path not Found Middleware
 app.use((req, res, next) => {
