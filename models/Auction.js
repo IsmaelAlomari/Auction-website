@@ -38,7 +38,6 @@ const auctionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Category",
     required: true,
-    // slug: { type: String, slug: "name" },
   },
 
   startingPrice: {

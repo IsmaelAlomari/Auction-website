@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-
 const bcrypt = require("bcrypt");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
 const jwt = require("jsonwebtoken");

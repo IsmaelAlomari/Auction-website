@@ -10,6 +10,10 @@ const {
 router.get("/auctions", fetchAllAuctions);
 router.post("/deleteAuction", deleteAuction);
 router.post("/createAuction", upload.array("image", 5), createAuction);
-router.put("/updateAuction/:auctionId", upload.array("image", 5), updateAuction);
+router.put(
+  "/updateAuction/:auctionId",
+  upload.array("image", 5),
+  updateAuction
+);
 
 module.exports = router;
