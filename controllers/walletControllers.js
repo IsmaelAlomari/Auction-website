@@ -30,14 +30,25 @@ exports.createWallet = async (req, res, next) => {
   }
 };
 
-// exports.updateAuction = async (req, res, next) => {
-//   if (req.file) {
-//     req.body.image = `http://${req.get("host")}/upload/${req.file.filename}`;
-//   }
-//   let auction = await Auction.findByIdAndUpdate(
-//     { _id: req.params.auctionId },
-//     req.body
-//   );
-//   auction = await auction.populate("auctions").execPopulate();
-//   res.status(201).json(auction);
-// };
+exports.addBalance = async (req, res, next) => {
+  console.log(req.body.walletId);
+  let wallet = await Wallet.findByIdAndUpdate(
+    { _id: req.body.walletId },
+    {
+      $inc: { balance: req.body.amount },
+    },
+    { new: true }
+  );
+  res.status(201).json(wallet);
+};
+exports.decBalance = async (req, res, next) => {
+  console.log(req.body.walletId);
+  let wallet = await Wallet.findByIdAndUpdate(
+    { _id: req.body.walletId },
+    {
+      $inc: { balance: -req.body.amount },
+    },
+    { new: true }
+  );
+  res.status(201).json(wallet);
+};

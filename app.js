@@ -13,6 +13,7 @@ const usersRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
 const auctionRoutes = require("./routes/auction");
 const walletRoutes = require("./routes/wallet");
+const favouriteRoute = require("./routes/favourite");
 
 //Creat App Instence
 const app = express();
@@ -29,6 +30,7 @@ app.use("/", usersRoutes);
 app.use("/", categoryRoutes);
 app.use("/", auctionRoutes);
 app.use("/", walletRoutes);
+app.use("/", favouriteRoute);
 
 // Path not Found Middleware
 app.use((req, res, next) => {

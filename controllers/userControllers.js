@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-
+const Wallet = require("../models/Wallet");
 exports.fetchAllUsers = async (req, res, next) => {
   try {
     const foundUsers = await User.find(
@@ -21,7 +21,7 @@ exports.signup = async (req, res, next) => {
 
     const newUser = await User.create(req.body);
     const token = generateToken(newUser);
-
+    const newWallet = await Wallet.create({ userId: newUser._id });
     res.status(201).json({ token });
   } catch (error) {
     next(error);

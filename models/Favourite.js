@@ -1,17 +1,23 @@
 const mongoose = require("mongoose");
 
+//import the slug package
+const slug = require("mongoose-slug-generator");
+//Initialize
 const Schema = mongoose.Schema;
 
-const WalletSchema = new Schema({
-  balance: {
-    type: Number,
-    default: 0,
-  },
+const FavouriteSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
+
+  auctionId: {
+    type: Schema.Types.ObjectId,
+    ref: "Auction",
+    required: true,
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,
@@ -24,6 +30,6 @@ const WalletSchema = new Schema({
   // toObject: { virutuals: true },
 });
 
-const Wallet = mongoose.model("Wallet", WalletSchema);
+const Category = mongoose.model("Favourite", FavouriteSchema);
 
-module.exports = Wallet;
+module.exports = Category;
