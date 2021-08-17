@@ -3,6 +3,7 @@ const cors = require("cors");
 const passport = require("passport");
 const path = require("path");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
+const socketio = require("socket.io");
 
 // Mongo DB
 const connectDB = require("./db");
@@ -17,6 +18,7 @@ const favouriteRoute = require("./routes/favourite");
 
 //Creat App Instence
 const app = express();
+const server = require("http").createServer(app);
 
 app.use(cors());
 app.use(express.json());
@@ -24,6 +26,9 @@ app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 app.use("/media", express.static(path.join(__dirname, "media")));
+
+const io = socketio(server, { cors: { origin: "*" } });
+//routes
 
 //Routes
 app.use("/", usersRoutes);
@@ -45,6 +50,6 @@ app.use((err, req, res, next) => {
 });
 
 const port = 5000;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
