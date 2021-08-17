@@ -2,7 +2,7 @@ const Favourite = require("../models/Favourite");
 exports.userFavourite = async (req, res, next) => {
   try {
     let allFavourite = await Favourite.find(
-      { userId: req.body.userId },
+      { userId: req.params.userId },
       { createdAt: 0, updatedAt: 0, __v: 0 }
     )
       .populate("userId", {
@@ -14,7 +14,12 @@ exports.userFavourite = async (req, res, next) => {
         age: 0,
         nationality: 0,
       })
-      .populate("AuctionId");
+      .populate("auctionId", {
+        createdAt: 0,
+        updatedAt: 0,
+        __v: 0,
+      });
+
     res.json(allFavourite);
   } catch (error) {
     next(error);
@@ -28,5 +33,15 @@ exports.createFavourite = async (req, res, next) => {
     res.status(201).json(newFavourite);
   } catch (error) {
     next(error);
+  }
+};
+
+exports.removeFavurite = async (req, res, next) => {
+  const fav = await Favourite.findById(req.body.favId);
+  if (!fav) {
+    next({ status: 404, message: "Auction Not Found" });
+  } else {
+    fav.remove();
+    res.status(201).json({ msg: "deleted" });
   }
 };

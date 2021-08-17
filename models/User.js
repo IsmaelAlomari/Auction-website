@@ -38,6 +38,14 @@ const userSchema = new Schema({
   nationality: {
     type: String,
   },
+
+  fav: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Auction",
+    },
+  ],
+
   createdAt: {
     type: Date,
     default: Date.now,

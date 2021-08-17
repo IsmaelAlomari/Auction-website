@@ -1,10 +1,14 @@
 const router = require("express").Router();
 const passport = require("passport");
-const { userFavourite, createFavourite } = require("../controllers/favouriteConrollers");
+const {
+  userFavourite,
+  createFavourite,
+  removeFavurite,
+} = require("../controllers/favouriteConrollers");
 
-router.get("/favourites", userFavourite);
+router.get("/favourites/:userId", userFavourite);
 
-// router.put("/updateWallet/:auctionId", updateWallet);
-router.post("/createFavourite", createFavourite);
+router.post("/addFavourite", createFavourite);
+router.post("/removeFavurite", removeFavurite);
 
 module.exports = router;
