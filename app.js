@@ -43,8 +43,10 @@ app.use((err, req, res, next) => {
     .json({ message: err.message || "Internal Server Error" });
 });
 
+// Socket
 const server = http.createServer(app);
 const SocketServer = require("./socket/SocketServer");
+SocketServer(server);
 
 const port = 5000;
 server.listen(port, () => {
