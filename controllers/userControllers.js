@@ -9,6 +9,7 @@ exports.fetchAllUsers = async (req, res, next) => {
       {},
       { createdAt: 0, updatedAt: 0, __v: 0 }
     );
+
     res.json(foundUsers);
   } catch (error) {
     next(error);

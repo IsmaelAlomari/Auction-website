@@ -13,6 +13,9 @@ exports.fetchAllWallets = async (req, res, next) => {
       address: 0,
       age: 0,
       nationality: 0,
+      fav: 0,
+      email: 0,
+      phoneNum: 0,
     });
     res.json(allWallets);
   } catch (error) {
@@ -31,7 +34,6 @@ exports.createWallet = async (req, res, next) => {
 };
 
 exports.addBalance = async (req, res, next) => {
-  console.log(req.body.walletId);
   let wallet = await Wallet.findByIdAndUpdate(
     { _id: req.body.walletId },
     {

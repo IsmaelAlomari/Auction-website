@@ -49,7 +49,6 @@ exports.updateAuction = async (req, res, next) => {
 };
 
 exports.deleteAuction = async (req, res, next) => {
-  console.log(req.body);
   const auction = await Auction.findById(req.body._id);
   if (!auction) {
     next({ status: 404, message: "Auction Not Found" });
