@@ -5,7 +5,6 @@ const path = require("path");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const http = require("http");
 
-
 // Mongo DB
 const connectDB = require("./db");
 connectDB();
@@ -18,7 +17,6 @@ const walletRoutes = require("./routes/wallet");
 
 //Creat App Instence
 const app = express();
-const server = require("http").createServer(app);
 
 app.use(cors());
 app.use(express.json());
@@ -26,9 +24,6 @@ app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 app.use("/media", express.static(path.join(__dirname, "media")));
-
-const io = socketio(server, { cors: { origin: "*" } });
-//routes
 
 //Routes
 app.use(usersRoutes);
