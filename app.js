@@ -3,7 +3,8 @@ const cors = require("cors");
 const passport = require("passport");
 const path = require("path");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
-const socketio = require("socket.io");
+const http = require("http");
+
 
 // Mongo DB
 const connectDB = require("./db");
@@ -14,7 +15,6 @@ const usersRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
 const auctionRoutes = require("./routes/auction");
 const walletRoutes = require("./routes/wallet");
-const favouriteRoute = require("./routes/favourite");
 
 //Creat App Instence
 const app = express();
@@ -31,11 +31,10 @@ const io = socketio(server, { cors: { origin: "*" } });
 //routes
 
 //Routes
-app.use("/", usersRoutes);
-app.use("/", categoryRoutes);
-app.use("/", auctionRoutes);
-app.use("/", walletRoutes);
-app.use("/", favouriteRoute);
+app.use(usersRoutes);
+app.use(categoryRoutes);
+app.use(auctionRoutes);
+app.use(walletRoutes);
 
 // Path not Found Middleware
 app.use((req, res, next) => {
@@ -48,6 +47,9 @@ app.use((err, req, res, next) => {
     .status(err.status || 500)
     .json({ message: err.message || "Internal Server Error" });
 });
+
+const server = http.createServer(app);
+const SocketServer = require("./socket/SocketServer");
 
 const port = 5000;
 server.listen(port, () => {
