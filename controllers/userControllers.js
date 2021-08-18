@@ -52,3 +52,31 @@ exports.fetchUser = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.createFavourite = async (req, res, next) => {
+  try {
+    const foundUser = await User.findById(req.body.userId);
+    if (foundUser.fav.includes(req.body.auctionId))
+      res.json({ message: "already fav" });
+    else foundUser.fav.push(req.body.auctionId);
+    foundUser.save();
+
+    res.json(foundUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.removeFavurite = async (req, res, next) => {
+  try {
+    const foundUser = await User.findById(req.body.userId);
+    if (foundUser.fav.includes(req.body.auctionId)) {
+      foundUser.fav.pull(req.body.auctionId);
+      foundUser.save();
+    } else res.json({ message: "auction not found" });
+
+    res.json(foundUser);
+  } catch (error) {
+    next(error);
+  }
+};

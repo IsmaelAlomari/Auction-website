@@ -3,6 +3,7 @@ const cors = require("cors");
 const passport = require("passport");
 const path = require("path");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
+const http = require("http");
 
 // Mongo DB
 const connectDB = require("./db");
@@ -13,7 +14,6 @@ const usersRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
 const auctionRoutes = require("./routes/auction");
 const walletRoutes = require("./routes/wallet");
-const favouriteRoute = require("./routes/favourite");
 
 //Creat App Instence
 const app = express();
@@ -26,11 +26,10 @@ passport.use(jwtStrategy);
 app.use("/media", express.static(path.join(__dirname, "media")));
 
 //Routes
-app.use("/", usersRoutes);
-app.use("/", categoryRoutes);
-app.use("/", auctionRoutes);
-app.use("/", walletRoutes);
-app.use("/", favouriteRoute);
+app.use(usersRoutes);
+app.use(categoryRoutes);
+app.use(auctionRoutes);
+app.use(walletRoutes);
 
 // Path not Found Middleware
 app.use((req, res, next) => {
@@ -44,7 +43,10 @@ app.use((err, req, res, next) => {
     .json({ message: err.message || "Internal Server Error" });
 });
 
+const server = http.createServer(app);
+const SocketServer = require("./socket/SocketServer");
+
 const port = 5000;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
