@@ -10,7 +10,6 @@ const { fromAuthHeaderAsBearerToken } = require("passport-jwt").ExtractJwt;
 exports.localStrategy = new LocalStrategy(async (username, password, done) => {
   try {
     const user = await User.findOne({ username: username });
-    console.log(user);
     const passwordMAtch = user
       ? await bcrypt.compare(password, user.password)
       : false;

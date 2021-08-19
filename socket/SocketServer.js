@@ -1,36 +1,31 @@
-const { model } = require("mongoose");
-const socketIo = require("socket.io");
+let users = [];
 
-const users = new Map();
-const usersSockets = new Map();
-
-const SocketServer = (server) => {
-  const io = socketIo(server, { cors: { origin: "*" } });
-
+const SocketServer = (io) => {
   io.on("connection", (socket) => {
-    socket.on("join", async (user, auction) => {
-      let sockets = [];
+    socket.on("join", async (user) => {
+      let roomId = "x";
 
-      // if (users.has(user.id)) {
-      //   const existingUser = users.get(user.id);
-      //   existingUser.socket = [...existingUser, ...[socket.id]];
-      //   users.set(user.is, existingUser);
-      //   sockets = [...existingUser.sockets, ...[socket.id]];
-      // } else {
-      //   users.set(user.id, { id: user.id, sockets: [socket.id] });
-      //   sockets.push(socket.id);
-      // }
+      users.push({
+        socketId: socket.id,
+        username: user.username,
+        room: roomId,
+      });
 
-      console.log(`${user.username} Joined ${auction.name}`);
+      socket.join(roomId);
+      socket.to(roomId).emit("message", users);
+      socket.emit("message", users);
 
-      io.to(socket.id).emit("addUser", user);
+      console.log(`${user.username} Joined `);
     });
 
-    // socket.on("disconnect", () => {
-    //   if (usersSockets.has(socket.id)) {
-    //     const user = users.get(usersSockets.get(socket.id));
-    //   }
-    // });
+    socket.on("disconnect", () => {
+      console.log(socket.id, users);
+      let myUser = users.find((user) => user.socketId == socket.id);
+      if (myUser) {
+        users = users.filter((user) => user.socketId !== socket.id);
+        socket.to(myUser.room).emit("message", users);
+      }
+    });
   });
 };
 

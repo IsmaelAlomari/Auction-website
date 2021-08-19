@@ -44,7 +44,6 @@ exports.addBalance = async (req, res, next) => {
   res.status(201).json(wallet);
 };
 exports.decBalance = async (req, res, next) => {
-  console.log(req.body.walletId);
   let wallet = await Wallet.findByIdAndUpdate(
     { _id: req.body.walletId },
     {

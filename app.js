@@ -4,6 +4,8 @@ const passport = require("passport");
 const path = require("path");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const http = require("http");
+const socketIo = require("socket.io");
+const SocketServer = require("./socket/SocketServer");
 
 // Mongo DB
 const connectDB = require("./db");
@@ -19,6 +21,12 @@ const walletRoutes = require("./routes/wallet");
 const app = express();
 
 app.use(cors());
+
+// Socket
+const server = http.createServer(app);
+const io = socketIo(server, { cors: { origin: "*" } });
+SocketServer(io);
+
 app.use(express.json());
 app.use(passport.initialize());
 passport.use(localStrategy);
@@ -43,12 +51,7 @@ app.use((err, req, res, next) => {
     .json({ message: err.message || "Internal Server Error" });
 });
 
-// Socket
-const server = http.createServer(app);
-const SocketServer = require("./socket/SocketServer");
-SocketServer(server);
-
-const port = 5000;
+const port = process.env.PORT || 5000;
 server.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
