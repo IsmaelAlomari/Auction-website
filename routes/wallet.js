@@ -11,6 +11,8 @@ const {
 router.get("/wallets", fetchAllWallets);
 
 router.post("/addbalance", addBalance);
+
+
 router.post("/decbalance", decBalance);
 router.post("/createWallet", createWallet);
 
