@@ -52,25 +52,15 @@ const auctionSchema = new Schema({
     min: [1, "Cant be less than 1"],
   },
 
-  highestBidder: {
-    bidderId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+  bidding: [
+    {
+      bid: Number,
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
     },
-    price: {
-      type: Number,
-    },
-  },
-
-  SecHighestBidder: {
-    bidderId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-    price: {
-      type: Number,
-    },
-  },
+  ],
 
   startTime: {
     type: Date,
