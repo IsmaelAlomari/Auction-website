@@ -2,8 +2,8 @@ let users = [];
 
 const SocketServer = (io) => {
   io.on("connection", (socket) => {
-    socket.on("join", async (user) => {
-      let roomId = "x";
+    socket.on("join", async ({ user, auctionSlug }) => {
+      let roomId = auctionSlug;
 
       users.push({
         socketId: socket.id,
@@ -12,10 +12,20 @@ const SocketServer = (io) => {
       });
 
       socket.join(roomId);
-      socket.to(roomId).emit("message", users);
-      socket.emit("message", users);
+      socket.to(roomId).emit(
+        "message",
+        users.filter((user) => user.room === roomId)
+      );
+      socket.emit(
+        "message",
+        users.filter((user) => user.room === roomId)
+      );
 
       console.log(`${user.username} Joined `);
+    });
+
+    socket.on("newBid", (bid) => {
+      io.to(bid.slug).emit("newBid", bid);
     });
 
     socket.on("disconnect", () => {
