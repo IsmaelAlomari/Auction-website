@@ -12,8 +12,8 @@ router.get("/wallets", fetchAllWallets);
 
 router.post("/addbalance", addBalance);
 
-
 router.post("/decbalance", decBalance);
+// REVIEW: remove create. It should be /wallets
 router.post("/createWallet", createWallet);
 
 module.exports = router;

@@ -12,6 +12,7 @@ exports.fetchAllCategories = async (req, res, next) => {
   }
 };
 
+// REVIEW: It should be `createCategory`
 exports.createcategory = async (req, res, next) => {
   try {
     if (req.file)

@@ -3,6 +3,8 @@ const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Wallet = require("../models/Wallet");
+
+// REVIEW: why are you fetching all users?
 exports.fetchAllUsers = async (req, res, next) => {
   try {
     const foundUsers = await User.find(
@@ -22,6 +24,7 @@ exports.signup = async (req, res, next) => {
 
     const newUser = await User.create(req.body);
     const token = generateToken(newUser);
+    // REVIEW: if you're not using `newWallet` you dont have to save the value
     const newWallet = await Wallet.create({ userId: newUser._id });
     res.status(201).json({ token });
   } catch (error) {
@@ -45,8 +48,11 @@ const generateToken = (user) => {
   return token;
 };
 
+// REVIEW: Why are you fetching the user???
 exports.fetchUser = async (req, res, next) => {
   try {
+    // You're not allowed to send the user ID in the body </3
+    // You get the user ID from the token
     const foundUser = await User.findById(req.body._id);
     res.json(foundUser);
   } catch (error) {
@@ -56,6 +62,8 @@ exports.fetchUser = async (req, res, next) => {
 
 exports.createFavourite = async (req, res, next) => {
   try {
+    // REVIEW: Don't pass the ID in the body,
+    // it should come from the jwt strategy through the token
     const foundUser = await User.findById(req.body.userId);
     if (foundUser.fav.includes(req.body.auctionId))
       res.json({ message: "already fav" });
@@ -70,6 +78,8 @@ exports.createFavourite = async (req, res, next) => {
 
 exports.removeFavurite = async (req, res, next) => {
   try {
+    // REVIEW: Don't pass the ID in the body,
+    // it should come from the jwt strategy through the token
     const foundUser = await User.findById(req.body.userId);
     if (foundUser.fav.includes(req.body.auctionId)) {
       foundUser.fav.pull(req.body.auctionId);

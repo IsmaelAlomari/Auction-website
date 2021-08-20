@@ -33,6 +33,7 @@ exports.createWallet = async (req, res, next) => {
   }
 };
 
+// REVIEW: TRY AND CAAAAAATCH!!!!!!!!!!!!!!!!
 exports.addBalance = async (req, res, next) => {
   let wallet = await Wallet.findByIdAndUpdate(
     { _id: req.body.walletId },
@@ -43,6 +44,7 @@ exports.addBalance = async (req, res, next) => {
   );
   res.status(201).json(wallet);
 };
+// REVIEW: TRY AND CAAAAAATCH!!!!!!!!!!!!!!!! 😡😡😡😡😡😡
 exports.decBalance = async (req, res, next) => {
   console.log(req.body.walletId);
   let wallet = await Wallet.findByIdAndUpdate(

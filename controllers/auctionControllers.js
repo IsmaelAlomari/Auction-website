@@ -2,6 +2,7 @@ const Auction = require("../models/Auction");
 
 exports.fetchAllAuctions = async (req, res, next) => {
   try {
+    // Please explain this to me
     let allAuctions = await Auction.find(
       {},
       { createdAt: 0, updatedAt: 0, __v: 0 }
@@ -36,6 +37,7 @@ exports.createAuction = async (req, res, next) => {
   }
 };
 
+// REVIEW: where is the try and catch?
 exports.updateAuction = async (req, res, next) => {
   if (req.file) {
     req.body.image = `http://${req.get("host")}/upload/${req.file.filename}`;
@@ -47,7 +49,8 @@ exports.updateAuction = async (req, res, next) => {
   auction = await auction.populate("auctions").execPopulate();
   res.status(201).json(auction);
 };
-
+// REVIEW: remove clgs
+// REVIEW: where is the try and catch?
 exports.deleteAuction = async (req, res, next) => {
   const auction = await Auction.findById(req.body._id);
   if (!auction) {
