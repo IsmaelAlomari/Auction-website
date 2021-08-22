@@ -12,7 +12,7 @@ exports.fetchAllCategories = async (req, res, next) => {
   }
 };
 
-exports.createcategory = async (req, res, next) => {
+exports.categoryCreate = async (req, res, next) => {
   try {
     if (req.file)
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;

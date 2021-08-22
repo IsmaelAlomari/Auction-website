@@ -1,4 +1,10 @@
+const Auction = require("../models/Auction");
 const Wallet = require("../models/Wallet");
+const stripe = require("stripe")(
+  "sk_test_51JQBfQGk7rf9P57JjERltky8GEv49Z7TVqrZWi2T2MdzfHntGWflgliP8KfLkuJPCQftwj4n0iOyqvqRvrGNpS7M00r70MOR2P"
+);
+
+const YOUR_DOMAIN = "http://localhost:3000/checkout";
 
 exports.fetchAllWallets = async (req, res, next) => {
   try {
@@ -43,6 +49,10 @@ exports.addBalance = async (req, res, next) => {
   );
   res.status(201).json(wallet);
 };
+const calculateOrderAmount = (items) => {
+  return 1700;
+};
+
 exports.decBalance = async (req, res, next) => {
   let wallet = await Wallet.findByIdAndUpdate(
     { _id: req.body.walletId },
@@ -52,4 +62,53 @@ exports.decBalance = async (req, res, next) => {
     { new: true }
   );
   res.status(201).json(wallet);
+};
+exports.payment = async (req, res, next) => {
+  try {
+    const { items } = req.body;
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: calculateOrderAmount(items),
+      currency: "usd",
+    });
+    res
+      .send({
+        clientSecret: paymentIntent.client_secret,
+      })
+      .json("done");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const Buyer = async (auctionId) => {
+  const wantedAuction = await Auction.find({
+    _id: auctionId,
+  });
+  const heighstBid = wantedAuction.bidding.sort((b, a) =>
+    a.bid > b.bid ? 1 : b.bid > a.bid ? -1 : 0
+  )[0];
+};
+
+exports.paymentMethod = async (req, res, next) => {
+  try {
+    const { auctionId } = req.body;
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          // TODO: replace this with the `price` of the product you want to sell
+          price: "price_1JQg94Gk7rf9P57JezeMDWq3",
+          // price: Buyer(auctionId).bid,
+          quantity: 1,
+        },
+      ],
+      payment_method_types: ["card"],
+      mode: "payment",
+      success_url: `${YOUR_DOMAIN}?success=true`,
+      cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+    });
+    res.redirect(303, session.url);
+  } catch (error) {
+    next(error);
+  }
 };

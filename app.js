@@ -7,6 +7,8 @@ const http = require("http");
 const socketIo = require("socket.io");
 const SocketServer = require("./socket/SocketServer");
 
+
+
 // Mongo DB
 const connectDB = require("./db");
 connectDB();
@@ -21,6 +23,7 @@ const walletRoutes = require("./routes/wallet");
 const app = express();
 
 app.use(cors());
+
 
 // Socket
 const server = http.createServer(app);
