@@ -1,11 +1,11 @@
 const router = require("express").Router();
 const upload = require("../middleware/multer");
 const {
-  createcategory,
+  categoryCreate,
   fetchAllCategories,
 } = require("../controllers/categoryControllers");
 
-router.get("/category", fetchAllCategories);
-router.post("/createcategory", upload.single("image"), createcategory);
+router.get("/categories", fetchAllCategories);
+router.post("/category", upload.single("image"), categoryCreate);
 
 module.exports = router;

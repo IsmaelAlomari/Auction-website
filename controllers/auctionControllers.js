@@ -22,7 +22,7 @@ exports.fetchAllAuctions = async (req, res, next) => {
   }
 };
 
-exports.createAuction = async (req, res, next) => {
+exports.auctionCreate = async (req, res, next) => {
   try {
     if (req.files)
       req.body.image = req.files.map(
@@ -36,24 +36,32 @@ exports.createAuction = async (req, res, next) => {
   }
 };
 
-exports.updateAuction = async (req, res, next) => {
-  if (req.file) {
-    req.body.image = `http://${req.get("host")}/upload/${req.file.filename}`;
+exports.auctionUpdate = async (req, res, next) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/upload/${req.file.filename}`;
+    }
+    let auction = await Auction.findByIdAndUpdate(
+      { _id: req.params.auctionId },
+      req.body
+    );
+    auction = await auction.populate("auctions").execPopulate();
+    res.status(201).json(auction);
+  } catch (error) {
+    next(error);
   }
-  let auction = await Auction.findByIdAndUpdate(
-    { _id: req.params.auctionId },
-    req.body
-  );
-  auction = await auction.populate("auctions").execPopulate();
-  res.status(201).json(auction);
 };
+exports.auctionDelete = async (req, res, next) => {
+  try {
+    const auction = await Auction.findById(req.body._id);
+    if (!auction) {
+      next({ status: 404, message: "Auction Not Found" });
+    } else {
+      auction.remove();
 
-exports.deleteAuction = async (req, res, next) => {
-  const auction = await Auction.findById(req.body._id);
-  if (!auction) {
-    next({ status: 404, message: "Auction Not Found" });
-  } else {
-    auction.remove();
-    res.status(201).json({ msg: "deleted" });
+      res.status(201).json({ msg: "deleted" });
+    }
+  } catch (error) {
+    next(error);
   }
 };
