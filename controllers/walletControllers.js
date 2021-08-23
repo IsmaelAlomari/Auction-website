@@ -1,8 +1,8 @@
+const { STRIP_PK } = require("../config/keys");
 const Auction = require("../models/Auction");
 const Wallet = require("../models/Wallet");
-const stripe = require("stripe")(
-  "sk_test_51JQBfQGk7rf9P57JjERltky8GEv49Z7TVqrZWi2T2MdzfHntGWflgliP8KfLkuJPCQftwj4n0iOyqvqRvrGNpS7M00r70MOR2P"
-);
+const stripe = require("stripe")(STRIP_PK);
+
 exports.fetchAllWallets = async (req, res, next) => {
   try {
     let allWallets = await Wallet.find(
@@ -60,8 +60,7 @@ exports.decBalance = async (req, res, next) => {
 
 const calculateOrderAmount = async (items) => {
   const price = await Buyer(items[0].id);
-  console.log(price, "hereeee");
-  return 1400;
+  return price * 100;
 };
 exports.payment = async (req, res, next) => {
   try {
