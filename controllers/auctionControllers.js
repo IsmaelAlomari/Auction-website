@@ -65,3 +65,20 @@ exports.auctionDelete = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.winner = async (req, res, next) => {
+  try {
+    const { auctionId, userId } = req.body;
+    let wantedAuction = await Auction.findByIdAndUpdate(
+      { _id: auctionId },
+      {
+        winner: userId,
+      },
+      { new: true }
+    );
+
+    res.status(201).json(wantedAuction);
+  } catch (error) {
+    next(error);
+  }
+};
