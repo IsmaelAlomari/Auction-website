@@ -21,6 +21,4 @@ router.post("/createWallet", createWallet);
 router.post("/create-payment-intent", payment);
 
 
-router.post("/create-checkout-session", paymentMethod);
-
 module.exports = router;

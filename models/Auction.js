@@ -27,7 +27,10 @@ const auctionSchema = new Schema({
       type: String,
     },
   ],
-
+  winner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",

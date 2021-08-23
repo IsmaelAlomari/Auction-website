@@ -29,6 +29,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = socketIo(server, { cors: { origin: "*" } });
 SocketServer(io);
+app.use(express.static("public"));
 
 app.use(express.json());
 app.use(passport.initialize());

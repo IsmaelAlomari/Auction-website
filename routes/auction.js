@@ -5,6 +5,7 @@ const {
   auctionCreate,
   auctionUpdate,
   auctionDelete,
+  winner
 } = require("../controllers/auctionControllers");
 const { bid } = require("../controllers/biddingControllers");
 
@@ -14,5 +15,6 @@ router.post("/auctions", upload.array("image", 5), auctionCreate);
 router.post("/bid", bid);
 
 router.put("/auctions/:auctionId", upload.array("image", 5), auctionUpdate);
+router.post("/winner",winner);
 
 module.exports = router;
