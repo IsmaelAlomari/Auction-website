@@ -82,3 +82,14 @@ exports.winner = async (req, res, next) => {
     next(error);
   }
 };
+exports.fetchAuction = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+
+    let auction = await Auction.findOne({ slug: slug });
+
+    res.json(auction);
+  } catch (error) {
+    next(error);
+  }
+};
