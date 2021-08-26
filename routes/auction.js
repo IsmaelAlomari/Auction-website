@@ -7,6 +7,7 @@ const {
   auctionDelete,
   winner,
   fetchAuction,
+  pay,
 } = require("../controllers/auctionControllers");
 const { bid } = require("../controllers/biddingControllers");
 
@@ -19,5 +20,6 @@ router.post("/bid", bid);
 
 router.put("/auctions/:auctionId", upload.array("image", 5), auctionUpdate);
 router.post("/winner", winner);
+router.post("/pay/:slug", pay);
 
 module.exports = router;

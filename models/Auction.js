@@ -15,11 +15,11 @@ const auctionSchema = new Schema({
   description: {
     type: String,
   },
-
-  quantity: {
-    type: Number,
-    default: 1,
+  payStatus: {
+    type: Boolean,
+    default: false,
   },
+
   slug: { type: String, slug: "name", unique: true },
 
   image: [

@@ -93,3 +93,18 @@ exports.fetchAuction = async (req, res, next) => {
     next(error);
   }
 };
+exports.pay = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+
+    let auction = await Auction.findOneAndUpdate(
+      { slug: slug },
+      { payStatus: true },
+      { new: true }
+    );
+
+    res.json(auction);
+  } catch (error) {
+    next(error);
+  }
+};
